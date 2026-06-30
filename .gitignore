@@ -1,0 +1,20 @@
+# env files
+.virtualenv
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.py[cod]
+*$py.class
+instance/
+
+.pytest_cache/
+
+# vscode
+.vscode/
+.idea/
