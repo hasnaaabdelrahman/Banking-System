@@ -66,5 +66,5 @@ Adjust the command above to match the actual entry-point file name in your local
 Unit tests are located in the `tests/` directory. Run them with:
 
 ```bash
-python -m unittest discover tests
+python -m unittest discover -s tests
 ```
