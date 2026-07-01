@@ -1,6 +1,7 @@
 import unittest
+
+from models import user
 from services.user.user_services import UserService
-from exceptions.user_exceptions import UserAlreadyExists , EmailAlreadyExists , UserNotFound
 from utils import password
 
 
@@ -17,16 +18,23 @@ class TestUserService(unittest.TestCase):
        self.user_repository = UserRepositorySpy()
        self.user_service = UserService(self.user_repository)
 
-
    def test_user_register(self):
-      user =  self.user_service.register(self.user)
-      self.assertEqual(self.user , user)
-      self.assertEqual(self.user_repository.created_user , self.user)
+        self.user_repository.user = None
+        user =  self.user_service.register(self.user)
+        self.assertEqual(self.user , user)
+        self.assertEqual(self.user_repository.created_user , self.user)
+
+   def test_user_login(self):
+       self.user.password = password.hash_password(self.user.password)
+       self.user_repository.user = self.user
+       user = self.user_service.login("user_123", "password@123")
+       self.assertEqual(self.user, user)
 
 class UserRepositorySpy:
     def __init__(self):
         self.user = None
         self.created_user = None
+        self.logged_in_user = None
 
     def get_by_username(self, username):
         if self.user and self.user.username == username:
