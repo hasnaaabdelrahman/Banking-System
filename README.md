@@ -56,7 +56,7 @@ Banking-System/
 Run the application's entry point script (check the `scripts/` folder for the setup/run script), for example:
 
 ```bash
-python scripts/main.py
+python scripts/create_db.py
 ```
 
 Adjust the command above to match the actual entry-point file name in your local copy of the repo.
@@ -68,3 +68,4 @@ Unit tests are located in the `tests/` directory. Run them with:
 ```bash
 python -m unittest discover tests
 ```
+git
