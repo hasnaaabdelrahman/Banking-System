@@ -1,6 +1,7 @@
 import unittest
 
 from common.account_type import AccountType
+from exceptions.bank_account_exceptions import BankAccountAlreadyExists, BankAccountNotFound
 from repositories.bank_account_repository import BankAccountRepository
 from services.bank_account.bank_account_services import BankAccountService
 
@@ -20,6 +21,13 @@ class TestBankAccountService(unittest.TestCase):
     def test_create_bank_account(self):
         account = self.bank_account_services.create_bank_account(self.bank_account)
         self.assertEqual(self.bank_account , account)
+        self.assertEqual(self.bank_account_repository.bank_account.id , '123')
+
+    def test_bank_account_already_exists_will_raises_exception(self):
+        self.bank_account_repository.bank_account = self.bank_account
+        with self.assertRaises(BankAccountAlreadyExists):
+            self.bank_account_services.create_bank_account(self.bank_account)
+
 class BankAccountRepositorySpy:
     def __init__(self):
         self.bank_account = None
