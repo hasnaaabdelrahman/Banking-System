@@ -68,4 +68,3 @@ Unit tests are located in the `tests/` directory. Run them with:
 ```bash
 python -m unittest discover tests
 ```
-git
