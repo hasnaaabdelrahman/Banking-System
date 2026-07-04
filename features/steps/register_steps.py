@@ -40,7 +40,7 @@ def step_impl(context):
     )
 @when("the users enters the invalid values")
 def step_impl(context):
-    context.result = context.result = context.user_service.register(context.user)
+    context.result = context.user_service.register(context.user)
 
 @then("the register should not be happened")
 def step_impl(context):
