@@ -46,7 +46,7 @@ Banking-System/
    python -m venv venv
    source venv/bin/activate   # On Windows: venv\Scripts\activate
    ```
-3. Install any dependencies, if a `requirements.txt` is present:
+3. Install any dependencies:
    ```bash
    pip install -r requirements.txt
    ```
