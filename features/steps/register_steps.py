@@ -19,3 +19,22 @@ def step_impl(context):
 @then("the register should be successfully")
 def step_impl(context):
     assert context.result is True
+
+@given("the user is trying to register")
+def step_impl(context):
+    context.user = {
+        "username": "",
+        "password": "password@12",
+        "email": "",
+        "first_name": "fuser",
+        "last_name": "luser",
+        "age": 20,
+        "image": "https://example.com"
+    }
+@when("the users enters the invalid values")
+def step_impl(context):
+    context.result = False
+
+@then("the register should not be happened")
+def step_impl(context):
+    assert context.result is False
