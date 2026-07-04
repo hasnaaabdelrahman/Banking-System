@@ -19,7 +19,7 @@ class BankAccount(Base):
         nullable = False,
     )
     account_type: Mapped[AccountType] = mapped_column(
-        Enum,
+        Enum(AccountType),
         nullable = False,
     )
     is_active: Mapped[bool] = mapped_column(
