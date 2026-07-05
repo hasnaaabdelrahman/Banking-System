@@ -18,16 +18,16 @@ class TransactionService:
         return self.transaction_repository.get_all_transactions()
 
     def get_transaction_by_id(self, transaction_id:str)->Optional[Transaction]:
-        transaction = self.transaction_repository.get_transaction_by_id(transaction_id)
+        transaction = self.transaction_repository.get_by_id(transaction_id)
         if transaction is None:
             raise TransactionNotFound(f'Transaction not found with id: {transaction_id}')
-        return self.transaction_repository.get_transaction_by_id(transaction.id)
+        return self.transaction_repository.get_by_id(transaction.id)
 
-    def get_transaction_by_account_id(self, account_id:str)->Optional[Transaction]:
-        transaction = self.transaction_repository.get_transaction_by_account_id(account_id)
-        if transaction is None:
+    def get_transaction_by_account_id(self, account_id:str)->List[Transaction]:
+        transaction = self.transaction_repository.get_by_account_id(account_id)
+        if not transaction:
             raise TransactionNotFound(f'Transaction not found with account id: {account_id}')
-        return self.transaction_repository.get_transaction_by_account_id(account_id)
+        return transaction
 
     def update_transaction(self, transaction:Transaction)->Transaction | None:
         if self.get_transaction_by_id(transaction.id):

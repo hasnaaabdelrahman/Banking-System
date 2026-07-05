@@ -69,12 +69,12 @@ class TransactionRepositorySpy:
     def get_all_transactions(self):
         return self.transactions_list
 
-    def get_transaction_by_id(self , id):
+    def get_by_id(self , id):
         if self.transaction and self.transaction.id == id:
             return self.transaction
         return None
 
-    def get_transaction_by_account_id(self , account_id):
+    def get_by_account_id(self , account_id):
         if self.transaction and self.transaction.account_id == account_id:
             return self.transaction
         return None
