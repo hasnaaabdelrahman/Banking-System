@@ -11,7 +11,7 @@ class TransactionService:
     def create_transaction(self, transaction:Transaction)->Transaction:
         if transaction.amount < 0:
             raise ValueError('amount must be greater than zero')
-        self.transaction_repository.create_transaction(transaction)
+        self.transaction_repository.create(transaction)
         return transaction
 
     def get_all_transactions(self)->List[Transaction]:
