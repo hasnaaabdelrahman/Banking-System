@@ -45,3 +45,53 @@ def step_impl(context):
 @then("the transaction is created successfully")
 def step_impl(context):
     assert context.transaction is not None
+
+
+@given(" the user is registered")
+def step_impl(context):
+    context.user = User(
+        id='1',
+        username="user_13",
+        password="password@12",
+        email="user1@example.com",
+        first_name="fuser",
+        last_name="luser",
+        age=20,
+        img_url="https://example.com",
+        bank_account=[]
+    )
+    context.user = context.user_service.register(context.user)
+
+@given("the user is logged in")
+def step_impl(context):
+    context.logged = context.user_service.login(context.user.username, "password@12")
+
+@given("the user has a bank account")
+def step_impl(context):
+    context.bank_account = BankAccount(
+        id='123',
+        account_number='123456789',
+        account_type=AccountType.SAVINGS,
+        balance=1000,
+        is_active=True,
+        user_id='1'
+    )
+    context.bank = context.bank_account_service.create_bank_account(context.bank_account)
+
+@when("the user attempts to create a transaction with an invalid amount")
+def step_impl(context):
+    context.transaction = Transaction(
+        id='1',
+        account_id='123',
+        transaction_type=TransactionType.DEPOSIT,
+        amount=-1,
+        date=datetime.now()
+    )
+    try:
+        context.transaction = context.transaction_service.create_transaction(context.transaction)
+    except ValueError as e:
+        context.exception = e
+
+@then("the transaction should not be created")
+def step_impl(context):
+    assert isinstance(context.exception, ValueError)
