@@ -1,23 +1,33 @@
-# Banking System
+#  Banking System
 
-A simple Python banking application that models core banking operations — accounts, transactions, and customers — using a clean, layered architecture (models, repositories, services).
+A secure and modular Banking System built with **Python** following **Clean Architecture** and **Domain-Driven Design (DDD)** principles. The project provides core banking functionalities such as user authentication, account management, and transaction processing while emphasizing maintainability, scalability, and comprehensive testing.
 
-## Features
+---
 
-- Create and manage bank accounts
-- Deposit and withdraw funds
-- Transfer money between accounts
-- Transaction history tracking
-- Input validation and custom exception handling for invalid operations (e.g. insufficient funds, invalid amounts)
-- Data persistence layer for storing accounts/transactions
+##  Features
 
-## Project Structure
+- User Registration & Authentication
+-  Secure User Login
+-  Bank Account Management
+-  Deposit Money
+-  Withdraw Money
+-  Input Validation & Business Rules
+-  Custom Exception Handling
+-  Behavior-Driven Development (BDD) Testing with Behave
+-  Layered Architecture
+
+---
+
+##  Project Architecture
+
+The project follows a clean layered architecture to separate responsibilities.
 
 ```
 Banking-System/
 ├── DB/             # Database setup / connection and persistence logic
 ├── common/         # Shared constants, enums, and helper utilities used across the app
 ├── exceptions/      # Custom exception classes for domain-specific error handling
+├── features/             # BDD feature files
 ├── models/          # Core domain models (e.g. Account, Customer, Transaction)
 ├── repositories/     # Data-access layer — CRUD operations for models
 ├── services/        # Business logic layer (deposits, withdrawals, transfers, etc.)
@@ -28,43 +38,131 @@ Banking-System/
 └── README.md
 ```
 
-> The project follows a layered design: **models** define the data, **repositories** handle storage/retrieval, and **services** implement the business rules on top of them.
+---
 
-## Requirements
+##  Tech Stack
 
-- Python 3.x
+- Python 3.10+
+- SQLAlchemy
+- SQLite
+- Behave (BDD)
+- Pytest
+- Faker
+- UUID
+- Git & GitHub
 
-## Installation
+---
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/hasnaaabdelrahman/Banking-System.git
-   cd Banking-System
-   ```
-2. (Optional) Create and activate a virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate   # On Windows: venv\Scripts\activate
-   ```
-3. Install any dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+## Getting Started
 
-## Usage
-
-Run the application's entry point script (check the `scripts/` folder for the setup/run script), for example:
+### 1. Clone the repository
 
 ```bash
-python scripts/create_db.py
+git clone https://github.com/hasnaaabdelrahman/Banking-System.git
+
+cd Banking-System
 ```
 
-Adjust the command above to match the actual entry-point file name in your local copy of the repo.
+### 2. Create a virtual environment
 
-## Running Tests
-
-Unit tests are located in the `tests/` directory. Run them with:
+Linux / macOS
 
 ```bash
-python -m unittest discover -s tests
+python3 -m venv .venv
+source .venv/bin/activate
 ```
+
+Windows
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+##  Running the Application
+
+```bash
+python main.py
+```
+
+---
+
+##  Running Tests
+
+### Run all unit tests
+
+```bash
+pytest
+```
+
+### Run a specific test
+
+```bash
+pytest tests/
+```
+
+### Run all BDD tests
+
+```bash
+behave
+```
+
+### Run a specific feature
+
+```bash
+behave features/login.feature
+```
+
+
+##  Main Functionalities
+
+### Authentication
+
+- Register new users
+- Login
+- Password validation
+
+### Bank Accounts
+
+- Create account
+- Retrieve account information
+- Validate account ownership
+
+### Transactions
+
+- Deposit
+- Withdraw
+- Transfer
+- Retrieve transaction history
+
+---
+
+## Design Principles
+
+- Clean Architecture
+- SOLID Principles
+- Repository Pattern
+- Dependency Injection
+- Separation of Concerns
+- Domain-Driven Design (DDD)
+
+---
+
+## Testing Strategy
+
+This project uses multiple testing approaches:
+
+- Unit Testing (Pytest)
+- Behavior-Driven Development (Behave)
+- Service Layer Testing
+- Repository Testing
+
+---
