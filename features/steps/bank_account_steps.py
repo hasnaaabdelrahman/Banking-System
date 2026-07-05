@@ -2,7 +2,7 @@
 from behave import given, when, then
 
 from common.account_type import AccountType
-from exceptions.bank_account_exceptions import BankAccountAlreadyExists
+from exceptions.bank_account_exceptions import BankAccountAlreadyExists, BankAccountNotFound
 from models import User
 from models.bank_account import BankAccount
 
@@ -71,3 +71,86 @@ def step_impl(context):
 @then("the bank account is not created")
 def step_impl(context):
     assert isinstance(context.exception, BankAccountAlreadyExists)
+
+@given("trying to get a bank account by id")
+def step_impl(context):
+    context.bank_account = BankAccount(
+        id='123',
+        account_number='123456789',
+        account_type=AccountType.SAVINGS,
+        balance=1000,
+        is_active=True,
+        user_id='1'
+    )
+    context.bank_account_service.create_bank_account(context.bank_account)
+
+@when("the bank account already exists")
+def step_impl(context):
+    context.bank_account = context.bank_account_service.get_by_id(context.bank_account.id)
+
+@then("the bank account should be found")
+def step_impl(context):
+    assert context.bank_account is not None
+
+@given("trying to get a bank account with id")
+def step_impl(context):
+    context.bank_account = BankAccount(
+        id='0',
+        account_number='123456789',
+        account_type=AccountType.SAVINGS,
+        balance=1000,
+        is_active=True,
+        user_id='1'
+    )
+@when("the bank account is not found")
+def step_impl(context):
+    try:
+        context.bank_account = context.bank_account_service.get_by_id(context.bank_account.id)
+    except (BankAccountNotFound) as e:
+        context.exception = e
+
+@then("the bank account not be found")
+def step_impl(context):
+    assert isinstance(context.exception, BankAccountNotFound)
+
+@given("trying to get a bank account by user id")
+def step_impl(context):
+    context.bank_account = BankAccount(
+        id='123',
+        account_number='123456789',
+        account_type=AccountType.SAVINGS,
+        balance=1000,
+        is_active=True,
+        user_id='1'
+    )
+    context.bank_account_service.create_bank_account(context.bank_account)
+
+@when("the bank account already exists with user id")
+def step_impl(context):
+    context.bank_account = context.bank_account_service.get_by_user_id(context.bank_account.user_id)
+
+@then("the bank account is found successfully")
+def step_impl(context):
+    assert context.bank_account is not None
+
+@given("trying to get a bank account with user id")
+def step_impl(context):
+    context.bank_account = BankAccount(
+        id='123',
+        account_number='123456789',
+        account_type=AccountType.SAVINGS,
+        balance=1000,
+        is_active=True,
+        user_id='1'
+    )
+
+@when("the bank account not exists with user id")
+def step_impl(context):
+    try:
+        context.bank_account = context.bank_account_service.get_by_user_id(context.bank_account.user_id)
+    except (BankAccountNotFound) as e:
+        context.exception = e
+
+@then("the bank account not found")
+def step_impl(context):
+    assert isinstance(context.exception, BankAccountNotFound)
