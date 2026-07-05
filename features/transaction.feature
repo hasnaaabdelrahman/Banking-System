@@ -11,3 +11,23 @@ Feature: Transaction Creation
       And the user has a bank account
       When the user attempts to create a transaction with an invalid amount
       Then the transaction should not be created
+
+  Scenario: Get Transaction by id successfully
+    Given trying to get a transaction by id
+    When transaction exists with this id
+    Then the transaction should be found successfully
+
+  Scenario: Cannot get transaction by id
+    Given trying to get a transaction with id
+    When transaction not exists with this id
+    Then the transaction should not be found
+
+  Scenario: Get Transaction by account id successfully
+    Given trying to get a transaction by account id
+    When transaction exists with this account id
+    Then the transaction found successfully
+
+  Scenario: Cannot get transaction by account id
+    Given trying to get a transaction with account id
+    When transaction not exists with this account id
+    Then the transaction should not be exists

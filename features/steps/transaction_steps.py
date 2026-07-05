@@ -1,4 +1,5 @@
-from models import User
+from exceptions.transaction_exceptions import TransactionNotFound
+from models import User, transaction
 from models.bank_account import BankAccount
 from models.transaction import Transaction
 from behave import given, when, then
@@ -95,3 +96,85 @@ def step_impl(context):
 @then("the transaction should not be created")
 def step_impl(context):
     assert isinstance(context.exception, ValueError)
+
+@given("trying to get a transaction by id")
+def step_impl(context):
+    context.transaction = Transaction(
+        id='1',
+        account_id='123',
+        transaction_type=TransactionType.DEPOSIT,
+        amount=10000,
+        date=datetime.now()
+    )
+    context.transaction_service.create_transaction(context.transaction)
+
+@when("transaction exists with this id")
+def step_impl(context):
+    context.transaction = context.transaction_service.get_transaction_by_id(context.transaction.id)
+
+@then("the transaction should be found successfully")
+def step_impl(context):
+    assert context.transaction is not None
+
+@given("trying to get a transaction with id")
+def step_impl(context):
+    context.transaction = Transaction(
+        id='1',
+        account_id='123',
+        transaction_type=TransactionType.DEPOSIT,
+        amount=10000,
+        date=datetime.now()
+    )
+
+@when("transaction not exists with this id")
+def step_impl(context):
+    try:
+        context.transaction = context.transaction_service.get_transaction_by_id(context.transaction.id)
+    except(TransactionNotFound) as e:
+        context.exception = e
+
+@then("the transaction should not be found")
+def step_impl(context):
+    assert isinstance(context.exception, TransactionNotFound)
+
+@given("trying to get a transaction by account id")
+def step_impl(context):
+    context.transaction = Transaction(
+        id='1',
+        account_id='123',
+        transaction_type=TransactionType.DEPOSIT,
+        amount=10000,
+        date=datetime.now()
+    )
+    context.transaction_service.create_transaction(context.transaction)
+
+@when("transaction exists with this account id")
+def step_impl(context):
+    context.transaction = context.transaction_service.get_transaction_by_account_id(context.transaction.account_id)
+
+@then("the transaction found successfully")
+def step_impl(context):
+    assert context.transaction is not None
+
+
+@given("trying to get a transaction with account id")
+def step_impl(context):
+    context.transaction = Transaction(
+        id='1',
+        account_id='123',
+        transaction_type=TransactionType.DEPOSIT,
+        amount=10000,
+        date=datetime.now()
+    )
+
+@when("transaction not exists with this account id")
+def step_impl(context):
+    try:
+        context.transaction = context.transaction_service.get_transaction_by_account_id(context.transaction.account_id)
+    except(TransactionNotFound) as e:
+        context.exception = e
+
+@then("the transaction should not be exists")
+def step_impl(context):
+    assert isinstance(context.exception, TransactionNotFound)
+
