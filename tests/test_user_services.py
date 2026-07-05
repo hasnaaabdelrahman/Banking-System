@@ -41,12 +41,13 @@ class TestUserService(unittest.TestCase):
        self.user_repository.user = None
        with self.assertRaises(UserNotFound):
            self.user_service.login(self.user.username, self.user.password)
+
+
 class UserRepositorySpy:
     def __init__(self):
         self.user = None
         self.created_user = None
         self.logged_in_user = None
-
 
     def get_by_username(self, username):
         if self.user and self.user.username == username:
@@ -62,14 +63,9 @@ class UserRepositorySpy:
         self.created_user = user
         return user
 
+
 class UserDouble:
-    def __init__(self, username = 'user_123',
-                 password='password@123',
-                 email = 'user@example.com',
-                 first_name = 'fuser',
-                 last_name = 'luser',
-                 age = 20,
-                 image ='https://example.com'):
+    def __init__(self, username = 'user_123',password='password@123',email = 'user@example.com',first_name = 'fuser',last_name = 'luser',age = 20,image ='https://example.com'):
         self.username = username
         self.password = password
         self.email = email

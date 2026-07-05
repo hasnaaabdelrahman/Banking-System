@@ -14,6 +14,7 @@ class TestTransactionService(unittest.TestCase):
             transaction_type = TransactionType.DEPOSIT,
             amount = 1000,
             date = datetime.datetime.now)
+
         self.transaction_repository = TransactionRepositorySpy()
         self.transaction_service = TransactionService(self.transaction_repository)
 
@@ -60,7 +61,7 @@ class TransactionRepositorySpy:
         self.transaction = None
         self.transactions_list =[]
 
-    def create_transaction(self , transaction):
+    def create(self , transaction):
         if transaction.amount < 0:
             return None
         return transaction
@@ -89,11 +90,7 @@ class TransactionRepositorySpy:
         return None
 
 class TransactionDouble:
-    def __init__(self, id = '12' ,
-                 account_id = '123',
-                 transaction_type = TransactionType.DEPOSIT,
-                 amount = 1000,
-                 date = datetime.datetime.now):
+    def __init__(self, id = '12' ,account_id = '123',transaction_type = TransactionType.DEPOSIT,amount = 1000,date = datetime.datetime.now):
         self.id = id
         self.account_id = account_id
         self.transaction_type = transaction_type

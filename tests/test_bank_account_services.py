@@ -1,8 +1,7 @@
 import unittest
 
 from common.account_type import AccountType
-from exceptions.bank_account_exceptions import BankAccountAlreadyExists, BankAccountNotFound
-from repositories.bank_account_repository import BankAccountRepository
+from exceptions.bank_account_exceptions import BankAccountAlreadyExists
 from services.bank_account.bank_account_services import BankAccountService
 
 class TestBankAccountService(unittest.TestCase):
@@ -38,6 +37,7 @@ class TestBankAccountService(unittest.TestCase):
         account = self.bank_account_services.delete_by_id(self.bank_account.id)
         self.assertEqual(self.bank_account , account)
 
+
 class BankAccountRepositorySpy:
     def __init__(self):
         self.bank_account = None
@@ -66,13 +66,7 @@ class BankAccountRepositorySpy:
         return None
 
 class BankAccountDouble:
-    def __init__(self ,
-                 id = '123',
-                 account_number ='123456789',
-                 account_type= AccountType.SAVINGS,
-                 balance=1000 ,
-                 is_active=True,
-                 user_id = '1'):
+    def __init__(self ,id = '123',account_number ='123456789',account_type= AccountType.SAVINGS,balance=1000 ,is_active=True,user_id = '1'):
         self.id = id
         self.account_number = account_number
         self.account_type = account_type
