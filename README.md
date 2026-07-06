@@ -47,7 +47,6 @@ Banking-System/
 - SQLite
 - Behave (BDD)
 - Pytest
-- Faker
 - UUID
 - Git & GitHub
 
