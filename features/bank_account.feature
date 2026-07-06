@@ -29,3 +29,8 @@ Feature: Create Bank Account
     Given trying to get a bank account with user id
     When the bank account not exists with user id
     Then the bank account not found
+
+  Scenario: Update the bank account successfully
+    Given the user wants to update his bank account
+    When the bank account is exists
+    Then the bank account should be updated successfully

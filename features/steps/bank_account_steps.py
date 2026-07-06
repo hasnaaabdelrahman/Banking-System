@@ -154,3 +154,24 @@ def step_impl(context):
 @then("the bank account not found")
 def step_impl(context):
     assert isinstance(context.exception, BankAccountNotFound)
+
+@given("the user wants to update his bank account")
+def step_impl(context):
+    context.bank_account = BankAccount(
+        id='123',
+        account_number='123456789',
+        account_type=AccountType.SAVINGS,
+        balance=1000,
+        is_active=True,
+        user_id='1'
+    )
+    context.bank_account_service.create_bank_account(context.bank_account)
+
+@when("the bank account is exists")
+def step_impl(context):
+        context.bank_account = context.bank_account_service.update_by_id(context.bank_account.id)
+
+@then("the bank account should be updated successfully")
+def step_impl(context):
+    context.bank_account is not None
+
