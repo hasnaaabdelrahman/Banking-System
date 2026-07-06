@@ -1,4 +1,6 @@
 import unittest
+from assertpy import assert_that
+
 
 from common.account_type import AccountType
 from exceptions.bank_account_exceptions import BankAccountAlreadyExists
@@ -6,21 +8,14 @@ from services.bank_account.bank_account_services import BankAccountService
 
 class TestBankAccountService(unittest.TestCase):
     def setUp(self):
-        self.bank_account = BankAccountDouble(
-            id = '123',
-            account_number='123456789',
-            account_type=AccountType.SAVINGS,
-            balance=1000,
-            is_active=True,
-            user_id='1'
-        )
+        self.bank_account = BankAccountDouble(id = '123',account_number='123456789',account_type=AccountType.SAVINGS,balance=1000,is_active=True,user_id='1')
         self.bank_account_repository = BankAccountRepositorySpy()
         self.bank_account_services = BankAccountService(self.bank_account_repository)
 
     def test_create_bank_account(self):
         account = self.bank_account_services.create_bank_account(self.bank_account)
-        self.assertEqual(self.bank_account , account)
-        self.assertEqual(self.bank_account_repository.bank_account.id , '123')
+        assert_that(self.bank_account).is_equal_to(account)
+        assert_that(self.bank_account_repository.bank_account.id).is_equal_to(self.bank_account.id)
 
     def test_bank_account_already_exists_will_raises_exception(self):
         self.bank_account_repository.bank_account = self.bank_account
@@ -30,12 +25,12 @@ class TestBankAccountService(unittest.TestCase):
     def test_update_bank_account(self):
         self.bank_account_repository.bank_account = self.bank_account
         account = self.bank_account_services.update_by_id(self.bank_account.id)
-        self.assertEqual(self.bank_account , account)
+        assert_that(self.bank_account).is_equal_to(account)
 
     def test_delete_bank_account(self):
         self.bank_account_repository.bank_account = self.bank_account
         account = self.bank_account_services.delete_by_id(self.bank_account.id)
-        self.assertEqual(self.bank_account , account)
+        assert_that(self.bank_account).is_equal_to(account)
 
 
 class BankAccountRepositorySpy:

@@ -1,5 +1,6 @@
 import unittest
 import datetime
+from assertpy import assert_that
 
 from common.transaction_type import TransactionType
 from exceptions.transaction_exceptions import TransactionNotFound
@@ -8,44 +9,38 @@ from services.transaction.transaction_services import TransactionService
 
 class TestTransactionService(unittest.TestCase):
     def setUp(self):
-        self.transaction = TransactionDouble(
-            id = '12' ,
-            account_id = '123',
-            transaction_type = TransactionType.DEPOSIT,
-            amount = 1000,
-            date = datetime.datetime.now)
-
+        self.transaction = TransactionDouble(id = '12' ,account_id = '123',transaction_type = TransactionType.DEPOSIT,amount = 1000,date = datetime.datetime.now)
         self.transaction_repository = TransactionRepositorySpy()
         self.transaction_service = TransactionService(self.transaction_repository)
 
 
     def test_create_transaction(self):
         transaction = self.transaction_service.create_transaction(self.transaction)
-        self.assertEqual(self.transaction , transaction)
+        assert_that(self.transaction).is_equal_to(transaction)
 
     def test_get_all_transactions(self):
         transactions = self.transaction_service.get_all_transactions()
-        self.assertNotEqual(len(transactions), 2)
+        assert_that(len(transactions), 2)
 
     def test_get_transaction_by_id(self):
         self.transaction_repository.transaction = self.transaction
         transaction = self.transaction_service.get_transaction_by_id(self.transaction.id)
-        self.assertEqual(self.transaction , transaction)
+        assert_that(self.transaction).is_equal_to(transaction)
 
     def test_get_transaction_by_account_id(self):
         self.transaction_repository.transaction = self.transaction
         transactions = self.transaction_service.get_transaction_by_account_id(self.transaction.account_id)
-        self.assertEqual(self.transaction , transactions)
+        assert_that(self.transaction).is_equal_to(transactions)
 
     def test_update_transaction(self):
         self.transaction_repository.transaction = self.transaction
         transaction = self.transaction_service.update_transaction(self.transaction)
-        self.assertEqual(self.transaction , transaction)
+        assert_that(self.transaction).is_equal_to(transaction)
 
     def test_delete_transaction(self):
         self.transaction_repository.transaction = self.transaction
         transaction = self.transaction_service.delete_transaction(self.transaction)
-        self.assertEqual(self.transaction , transaction)
+        assert_that(self.transaction).is_equal_to(transaction)
 
     def test_transaction_not_found_will_raise_exception(self):
         with self.assertRaises(TransactionNotFound):

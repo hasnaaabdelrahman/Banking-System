@@ -1,4 +1,6 @@
 import unittest
+from assertpy import assert_that
+
 
 from exceptions.bank_account_exceptions import BankAccountAlreadyExists
 from exceptions.user_exceptions import UserAlreadyExists, UserNotFound, EmailAlreadyExists
@@ -9,28 +11,21 @@ from utils import password
 
 class TestUserService(unittest.TestCase):
    def setUp(self):
-       self.user = UserDouble(username='user_123',
-                              password='password@123',
-                              email='email@example.com',
-                              first_name='fuser',
-                              last_name='luser',
-                              age=20,
-                              image='https://example.com')
-
+       self.user = UserDouble(username='user_123',password='password@123',email='email@example.com',first_name='fuser',last_name='luser',age=20,image='https://example.com')
        self.user_repository = UserRepositorySpy()
        self.user_service = UserService(self.user_repository)
 
    def test_user_register(self):
         self.user_repository.user = None
         user =  self.user_service.register(self.user)
-        self.assertEqual(self.user , user)
-        self.assertEqual(self.user_repository.created_user , self.user)
+        assert_that(self.user).is_equal_to(user)
+        assert_that(self.user_repository.created_user).is_equal_to(self.user)
 
    def test_user_login(self):
        self.user.password = password.hash_password(self.user.password)
        self.user_repository.user = self.user
        user = self.user_service.login("user_123", "password@123")
-       self.assertEqual(self.user, user)
+       assert_that(self.user).is_equal_to(user)
 
    def test_user_already_exists_will_raises_exception(self):
        self.user_repository.user = self.user
