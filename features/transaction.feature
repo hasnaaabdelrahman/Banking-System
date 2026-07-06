@@ -31,3 +31,18 @@ Feature: Transaction Creation
     Given trying to get a transaction with account id
     When transaction not exists with this account id
     Then the transaction should not be exists
+
+  Scenario: Update Transaction Successfully
+    Given the user wants to update specific transaction
+    When the transaction is already exists
+    Then the transaction should be updated successfully
+
+  Scenario: Cannot Update Transaction
+    Given the user is trying to update specific transaction
+    When the transaction is not exists
+    Then the transaction should not be updated
+
+  Scenario: delete Transaction Successfully
+    Given the user wants to delete specific transaction
+    When the transaction is exists
+    Then the transaction should be deleted successfully
