@@ -74,12 +74,12 @@ class TransactionRepositorySpy:
             return self.transaction
         return None
 
-    def update_transaction(self , transaction):
+    def update(self , transaction):
         if self.transaction:
             return self.transaction
         return transaction
 
-    def delete_transaction(self , transaction):
+    def delete(self , transaction):
         if self.transaction:
             return self.transaction
         return None
