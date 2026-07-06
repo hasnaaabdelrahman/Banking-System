@@ -237,3 +237,27 @@ def step_impl(context):
 @then("the transaction should be deleted successfully")
 def step_impl(context):
     assert context.transaction is not None
+
+
+@given("the user is trying to detete specific transaction")
+def step_impl(context):
+    context.transaction = Transaction(
+        id='1',
+        account_id='123',
+        transaction_type=TransactionType.DEPOSIT,
+        amount=10000,
+        date=datetime.now()
+    )
+
+@when("the transaction isn't exists")
+def step_impl(context):
+    try:
+        context.transaction = context.transaction_service.delete_transaction(context.transaction)
+    except(TransactionNotFound) as e:
+        context.exception = e
+
+
+@then("the transaction should not be deleted")
+def step_impl(context):
+    assert isinstance(context.exception, TransactionNotFound)
+

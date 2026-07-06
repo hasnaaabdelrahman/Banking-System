@@ -46,3 +46,8 @@ Feature: Transaction Creation
     Given the user wants to delete specific transaction
     When the transaction is exists
     Then the transaction should be deleted successfully
+
+  Scenario: Cannot delete Transaction
+    Given the user is trying to detete specific transaction
+    When the transaction isn't exists
+    Then the transaction should not be deleted
