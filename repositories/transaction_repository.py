@@ -37,17 +37,10 @@ class TransactionRepository:
             self.session.rollback()
             raise
 
-    def delete(self, id: str) -> bool:
+    def delete(self, transaction: Transaction) -> Transaction:
         try:
-            transaction = self.get_by_id(id)
-
-            if transaction is None:
-                return False
-
             self.session.delete(transaction)
             self.session.commit()
-
-            return True
         except SQLAlchemyError:
             self.session.rollback()
             raise

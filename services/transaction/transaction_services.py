@@ -31,12 +31,12 @@ class TransactionService:
 
     def update_transaction(self, transaction:Transaction)->Transaction | None:
         if self.get_transaction_by_id(transaction.id):
-            self.transaction_repository.update_transaction(transaction)
+            self.transaction_repository.update(transaction)
             return transaction
         return None
 
     def delete_transaction(self, transaction:Transaction)->Transaction | None:
         if self.get_transaction_by_id(transaction.id):
-            self.transaction_repository.delete_transaction(transaction)
+            self.transaction_repository.delete(transaction)
             return transaction
         return None
