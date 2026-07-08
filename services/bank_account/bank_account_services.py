@@ -28,9 +28,9 @@ class BankAccountService:
         account = self.bank_repository.get_by_id(id)
         if account is None:
             raise BankAccountNotFound("Bank account not found")
-        return self.bank_repository.delete_by_id(id)
+        return self.bank_repository.delete(id)
 
-    def update_by_id(self , id:str) -> BankAccount:
+    def update_by_id(self , id:str) -> BankAccount|None:
         account = self.bank_repository.get_by_id(id)
         if not account:
             raise BankAccountNotFound("Bank account not found")

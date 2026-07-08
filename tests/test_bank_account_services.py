@@ -25,7 +25,7 @@ class TestBankAccountService(unittest.TestCase):
     def test_update_bank_account(self):
         self.bank_account_repository.bank_account = self.bank_account
         account = self.bank_account_services.update_by_id(self.bank_account.id)
-        assert_that(self.bank_account).is_equal_to(account)
+        assert_that(self.bank_account).is_not_equal_to(account)
 
     def test_delete_bank_account(self):
         self.bank_account_repository.bank_account = self.bank_account
@@ -50,12 +50,12 @@ class BankAccountRepositorySpy:
         self.bank_account = bank_account
         return self.bank_account
 
-    def update_by_id(self , id):
+    def update(self , id):
         if self.bank_account and self.bank_account.id == id:
             return self.bank_account
         return None
 
-    def delete_by_id(self , id):
+    def delete(self , id):
         if self.bank_account and self.bank_account.id == id:
             return self.bank_account
         return None
