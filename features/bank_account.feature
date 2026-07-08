@@ -34,3 +34,18 @@ Feature: Create Bank Account
     Given the user wants to update his bank account
     When the bank account is exists
     Then the bank account should be updated successfully
+
+  Scenario: Cannot Update the bank account
+    Given the user is trying to update his bank account
+    When the bank account is not exists
+    Then the bank account should not be updated
+
+  Scenario: Delete the bank account successfully
+    Given the user wants to delete his bank account
+    When the bank account is found
+    Then the bank account should be deleted successfully
+
+  Scenario:Cannot delete the bank account
+    Given the user is trying to delete his bank account
+    When the bank account not found
+    Then the bank account should not be deleted
