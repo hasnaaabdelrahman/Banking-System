@@ -3,7 +3,7 @@ import uuid
 from sqlalchemy import Float, String, ForeignKey, DateTime , Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from DB.db import Base
+from Database.db import Base
 from common.transaction_type import TransactionType
 
 class Transaction(Base):

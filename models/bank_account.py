@@ -2,7 +2,7 @@ import uuid
 from sqlalchemy import Float, String, Boolean, ForeignKey, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from DB.db import Base
+from Database.db import Base
 from common.account_type import AccountType
 
 
