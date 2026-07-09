@@ -7,7 +7,7 @@ from repositories.transaction_repository import TransactionRepository
 from models.user import User
 from models.bank_account import BankAccount
 from models.transaction import Transaction
-from Database.db import session
+from database.db import session
 
 def before_scenario(context, scenario):
     db = session()
