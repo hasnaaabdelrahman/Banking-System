@@ -1,11 +1,8 @@
 import unittest
 from assertpy import assert_that
 
-
-from exceptions.bank_account_exceptions import BankAccountAlreadyExists
-from exceptions.user_exceptions import UserAlreadyExists, UserNotFound, EmailAlreadyExists
-from models import user
-from services.user.user_services import UserService
+from exceptions.user_exceptions import UserAlreadyExists, UserNotFound
+from services.user_services import UserService
 from utils import password
 
 

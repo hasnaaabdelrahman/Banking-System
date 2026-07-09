@@ -4,7 +4,7 @@ from assertpy import assert_that
 
 from common.transaction_type import TransactionType
 from exceptions.transaction_exceptions import TransactionNotFound
-from services.transaction.transaction_services import TransactionService
+from services.transaction_services import TransactionService
 
 
 class TestTransactionService(unittest.TestCase):

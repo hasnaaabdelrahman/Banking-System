@@ -4,7 +4,7 @@ from assertpy import assert_that
 
 from common.account_type import AccountType
 from exceptions.bank_account_exceptions import BankAccountAlreadyExists
-from services.bank_account.bank_account_services import BankAccountService
+from services.bank_account_services import BankAccountService
 
 class TestBankAccountService(unittest.TestCase):
     def setUp(self):
