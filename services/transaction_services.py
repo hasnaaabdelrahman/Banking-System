@@ -2,13 +2,20 @@ from typing import List, Optional
 
 from models.transaction import Transaction
 from exceptions.transaction_exceptions import TransactionNotFound, InsufficientBalance
+from schemas.transaction_schema import TransactionSchema
 
 
 class TransactionService:
     def __init__(self , transaction_repository):
         self.transaction_repository = transaction_repository
 
-    def create_transaction(self, transaction:Transaction)->Transaction:
+    def create_transaction(self, transaction_data:TransactionSchema)->Transaction:
+        transaction = Transaction(
+            account_id=transaction_data.account_id,
+            transaction_type=transaction_data.transaction_type,
+            amount=transaction_data.amount,
+            date=transaction_data.date,
+        )
         if transaction.amount < 0:
             raise ValueError('amount must be greater than zero')
         self.transaction_repository.create(transaction)
