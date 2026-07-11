@@ -154,6 +154,107 @@ paths:
       responses:
         '204':
           description: Bank account deleted successfully
+
+  /transaction:
+    post:
+      tags:
+        - Transaction
+      summary: make a new transaction
+      description: this is endpoint for create a new transaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionRequest'
+      responses:
+        '201':
+          description: Transaction created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+
+  /transaction/{id}:
+    get:
+      tags:
+        - Transaction
+      summary: Get a transaction by id
+      description: Retrieve a transaction using its unique identifier.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id
+          schema:
+            type: string
+            example: transaction-001
+      responses:
+        '200':
+          description: Transaction is found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+
+  /transactions/{account_id}:
+    get:
+      tags:
+        - Transaction
+      summary: Get a transaction by account id
+      description: Retrieve transactions using its bank account id.
+      parameters:
+        - name: account_id
+          in: path
+          required: true
+          description: account id
+          schema:
+            type: string
+            example: acc-001
+      responses:
+        '200':
+          description: Transaction is found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransactionResponse'
+
+  /transactions:
+    get:
+      tags:
+        - Transaction
+      summary: Get all transactions
+      description: Retrieve all transactions.
+      responses:
+        '200':
+          description: Transaction is found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransactionResponse'
+
+  /transaction/{transaction_id}:
+    delete:
+      tags:
+        - Transaction
+      summary: Delete transaction by transaction id
+      description: Delete Transaction
+      parameters:
+        - name:
+            transaction_id
+          in: path
+          description: transaction id
+          schema:
+            type: string
+            example: tr-00
+      responses:
+        '204':
+          description: Transaction deleted successfully
+
 components:
   schemas:
     RegisterRequest:
@@ -269,3 +370,58 @@ components:
         is_active:
           type: boolean
           example: true
+
+    TransactionRequest:
+      type: object
+      required:
+        - account_id
+        - transaction_type
+        - amount
+      properties:
+        account_id:
+          type: string
+          example: "acc-001"
+
+        transaction_type:
+          type: string
+          enum:
+            - DEPOSIT
+            - WITHDRAW
+            - TRANSFER
+          example: DEPOSIT
+
+        amount:
+          type: number
+          format: float
+          example: 1000.45
+
+
+    TransactionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "123e4567-e89b-12d3-a456-426614174000"
+
+        account_id:
+          type: string
+          example: "acc-001"
+
+        transaction_type:
+          type: string
+          enum:
+            - DEPOSIT
+            - WITHDRAW
+            - TRANSFER
+          example: DEPOSIT
+
+        amount:
+          type: number
+          format: float
+          example: 1000.45
+
+        date:
+          type: string
+          format: date-time
+          example: "2026-07-11T10:30:00"
+
