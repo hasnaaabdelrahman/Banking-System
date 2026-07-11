@@ -16,14 +16,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/registerRequest'
+              $ref: '#/components/schemas/RegisterRequest'
       responses:
         '201':
           description: User registered successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/registerResponse'
+                $ref: '#/components/schemas/RegisterResponse'
   /login:
     post:
       tags:
@@ -35,19 +35,128 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/loginRequest'
+              $ref: '#/components/schemas/LoginRequest'
       responses:
         '200':
           description: User logged successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/loginResponse'
+                $ref: '#/components/schemas/LoginResponse'
+  /bank-account:
+      post:
+        tags:
+          - Bank Account
+        summary: Create a new bank account
+        description: Creates a new bank account for a registered user.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankRequest'
+        responses:
+          '201':
+            description: Bank account created successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BankResponse'
 
+  /bank-account/{id}:
+      get:
+        tags:
+          - Bank Account
+        summary: Get a bank account by id
+        description: Retrieve a bank account using its unique identifier.
+        parameters:
+          - name: id
+            in: path
+            required: true
+            description: Bank account id
+            schema:
+              type: string
+              example: acc-001
+        responses:
+          '200':
+            description: Bank account is found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BankResponse'
 
+  /bank-account/{user_id}:
+      get:
+        tags:
+          - Bank Account
+        summary: Get a bank account by user id
+        description: Retrieve a bank account using its unique identifier.
+        parameters:
+          - name: user_id
+            in: path
+            required: true
+            description: user id
+            schema:
+              type: string
+              example: user-001
+        responses:
+          '200':
+            description: Bank account is found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BankResponse'
+
+  /bank-account/{account_id}:
+    put:
+      tags:
+        - Bank Account
+      summary: update a bank account by account id
+      description: update a bank account using its unique identifier.
+      parameters:
+        - name: account_id
+          in: path
+          required: true
+          description: account id
+          schema:
+            type: string
+            example: acc-001
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccountRequest'
+
+      responses:
+        '200':
+          description: Bank account updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankResponse'
+
+  /bank-account/{bank_account_id}:
+    delete:
+      tags:
+        - Bank Account
+      summary: delete a bank account by account id
+      description: delete a bank account using its unique identifier.
+      parameters:
+        - name: bank_account_id
+          in: path
+          required: true
+          description: bank account id
+          schema:
+            type: string
+            example: acc-001
+
+      responses:
+        '204':
+          description: Bank account deleted successfully
 components:
   schemas:
-    registerRequest:
+    RegisterRequest:
       type: object
       required:
         - username
@@ -79,14 +188,14 @@ components:
           type: string
           example: https://example.com/profile.png
 
-    registerResponse:
+    RegisterResponse:
       type: object
       properties:
         message:
           type: string
         example: User registered successfully
 
-    loginRequest:
+    LoginRequest:
       type: object
       required:
         - username
@@ -97,9 +206,66 @@ components:
         password:
           type: string
 
-    loginResponse:
+    LoginResponse:
       type: object
       properties:
         message:
           type: string
         example: User registered successfully
+
+    BankRequest:
+          type: object
+          required:
+            - user_id
+            - account_type
+          properties:
+            user_id:
+              type: string
+              example: "123e4567-e89b-12d3-a456-426614174000"
+            account_type:
+              type: string
+              enum:
+                - SAVINGS
+                - CURRENT
+              example: SAVINGS
+
+    BankAccountRequest:
+          type: object
+          required:
+            - account_type
+            - balance
+            - is_active
+          properties:
+            balance:
+              type: number
+              example: 10000
+            is_active:
+              type: boolean
+              example: true
+            account_type:
+              type: string
+              enum:
+                - SAVINGS
+                - CURRENT
+              example: SAVINGS
+    BankResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "acc-001"
+        user_id:
+          type: string
+          example: "user-001"
+        account_number:
+          type: string
+          example: "1234567890"
+        balance:
+          type: number
+          example: 0.0
+        account_type:
+          type: string
+          example: SAVINGS
+        is_active:
+          type: boolean
+          example: true
