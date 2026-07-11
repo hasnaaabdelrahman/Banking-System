@@ -1,0 +1,105 @@
+openapi: 3.0.0
+info:
+  title: Banking System
+  description:  API documentation for Banking System
+  version: 1.0.0
+
+paths:
+  /register:
+    post:
+      tags:
+        - Authentication
+      summary: register into the system
+      description: this is endpoint for register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/registerRequest'
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/registerResponse'
+  /login:
+    post:
+      tags:
+        - Authentication
+      summary: login into the system
+      description: this is endpoint for login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loginRequest'
+      responses:
+        '200':
+          description: User logged successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/loginResponse'
+
+
+components:
+  schemas:
+    registerRequest:
+      type: object
+      required:
+        - username
+        - email
+        - password
+        - first_name
+        - last_name
+        - age
+      properties:
+        username:
+          type: string
+          example: user_123
+        email:
+          type: string
+          example: user@example.com
+        first_name:
+          type: string
+          example: john
+        last_name:
+          type: string
+          example: joe
+        password:
+          type: string
+          example: password@123
+        age:
+          type: integer
+          example: 28
+        img_url:
+          type: string
+          example: https://example.com/profile.png
+
+    registerResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        example: User registered successfully
+
+    loginRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    loginResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        example: User registered successfully
