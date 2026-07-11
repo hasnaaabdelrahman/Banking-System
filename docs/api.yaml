@@ -237,6 +237,35 @@ paths:
                 items:
                   $ref: '#/components/schemas/TransactionResponse'
 
+
+  /transaction/{_id}:
+    put:
+      tags:
+        - Transaction
+      summary: update a transaction by id
+      description: update a transaction using its unique identifier.
+      parameters:
+        - name: _id
+          in: path
+          required: true
+          description: transaction id
+          schema:
+            type: string
+            example: tr-001
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionRequest'
+      responses:
+        '200':
+          description: Transaction updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse'
+
   /transaction/{transaction_id}:
     delete:
       tags:
@@ -254,7 +283,6 @@ paths:
       responses:
         '204':
           description: Transaction deleted successfully
-
 components:
   schemas:
     RegisterRequest:
