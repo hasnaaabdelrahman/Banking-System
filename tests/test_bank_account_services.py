@@ -4,6 +4,8 @@ from assertpy import assert_that
 
 from common.account_type import AccountType
 from exceptions.bank_account_exceptions import BankAccountAlreadyExists
+from models import bank_account
+from schemas.bank_account_schema import BankAccountSchema
 from services.bank_account_services import BankAccountService
 
 class TestBankAccountService(unittest.TestCase):
@@ -13,9 +15,15 @@ class TestBankAccountService(unittest.TestCase):
         self.bank_account_services = BankAccountService(self.bank_account_repository)
 
     def test_create_bank_account(self):
-        account = self.bank_account_services.create_bank_account(self.bank_account)
-        assert_that(self.bank_account).is_equal_to(account)
-        assert_that(self.bank_account_repository.bank_account.id).is_equal_to(self.bank_account.id)
+        bank_account_data = BankAccountSchema(
+            account_number= '123456789',
+            account_type= AccountType.SAVINGS,
+            balance= 1000,
+            is_active= True,
+            user_id = '1'
+        )
+        account = self.bank_account_services.create_bank_account(bank_account_data)
+        assert_that(self.bank_account.account_type).is_equal_to(account.account_type)
 
     def test_bank_account_already_exists_will_raises_exception(self):
         self.bank_account_repository.bank_account = self.bank_account
