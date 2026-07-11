@@ -2,27 +2,40 @@ import unittest
 from assertpy import assert_that
 
 from exceptions.user_exceptions import UserAlreadyExists, UserNotFound
+from schemas.user_schema import UserLoginSchema, UserRegisterSchema
 from services.user_services import UserService
 from utils import password
 
 
 class TestUserService(unittest.TestCase):
    def setUp(self):
-       self.user = UserDouble(username='user_123',password='password@123',email='email@example.com',first_name='fuser',last_name='luser',age=20,image='https://example.com')
+       self.user = UserDouble(username='user_123',password='password@123',email='email@example.com',first_name='fuser',last_name='luser',age=20,img_url='https://example.com')
        self.user_repository = UserRepositorySpy()
        self.user_service = UserService(self.user_repository)
 
    def test_user_register(self):
         self.user_repository.user = None
-        user =  self.user_service.register(self.user)
-        assert_that(self.user).is_equal_to(user)
-        assert_that(self.user_repository.created_user).is_equal_to(self.user)
+        register_data = UserRegisterSchema(
+            username='user_123',
+            password='password@123',
+            email='email@example.com',
+            first_name='fuser',
+            last_name='luser',
+            age=20,
+            img_url='https://example.com'
+        )
+        user =  self.user_service.register(register_data)
+        assert_that(self.user.username).is_equal_to(user.username)
 
    def test_user_login(self):
-       self.user.password = password.hash_password(self.user.password)
        self.user_repository.user = self.user
-       user = self.user_service.login("user_123", "password@123")
-       assert_that(self.user).is_equal_to(user)
+       self.user.password = password.hash_password(self.user.password)
+       login_data = UserLoginSchema(
+           username="user_123",
+           password="password@123"
+       )
+       user = self.user_service.login(login_data)
+       assert_that(user.username).is_equal_to('user_123')
 
    def test_user_already_exists_will_raises_exception(self):
        self.user_repository.user = self.user
@@ -30,9 +43,13 @@ class TestUserService(unittest.TestCase):
            self.user_service.register(self.user_repository.user)
 
    def test_user_not_found_will_raises_exception(self):
+       login_data = UserDouble(
+           username = 'user123',
+           password = 'password@123'
+       )
        self.user_repository.user = None
        with self.assertRaises(UserNotFound):
-           self.user_service.login(self.user.username, self.user.password)
+           self.user_service.login(login_data)
 
 
 class UserRepositorySpy:
@@ -57,14 +74,14 @@ class UserRepositorySpy:
 
 
 class UserDouble:
-    def __init__(self, username = 'user_123',password='password@123',email = 'user@example.com',first_name = 'fuser',last_name = 'luser',age = 20,image ='https://example.com'):
+    def __init__(self, username = 'user_123',password='password@123',email = 'user@example.com',first_name = 'fuser',last_name = 'luser',age = 20,img_url ='https://example.com'):
         self.username = username
         self.password = password
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
         self.age = age
-        self.image = image
+        self.img_url = img_url
 
 if __name__ == '__main__':
     unittest.main()

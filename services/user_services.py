@@ -1,3 +1,4 @@
+from models import User
 from models.user import User
 from schemas.user_schema import UserRegisterSchema, UserLoginSchema
 from utils import password
@@ -23,13 +24,12 @@ class UserService:
             img_url=user_data.img_url
         )
 
-        user.password = password.hash_password(user.password)
         return self.user_repository.create(user)
 
     def login(self ,user_data: UserLoginSchema) -> User:
         user = self.user_repository.get_by_username(user_data.username)
         if not user:
             raise UserNotFound('user does not exist.')
-        if not  password.check_password(user_data.password , user.password):
+        if not password.check_password(user_data.password , user.password):
             raise InvalidCredentials('Invalid username or password.')
         return user
