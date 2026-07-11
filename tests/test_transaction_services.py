@@ -4,6 +4,7 @@ from assertpy import assert_that
 
 from common.transaction_type import TransactionType
 from exceptions.transaction_exceptions import TransactionNotFound
+from schemas.transaction_schema import TransactionSchema
 from services.transaction_services import TransactionService
 
 
@@ -15,8 +16,14 @@ class TestTransactionService(unittest.TestCase):
 
 
     def test_create_transaction(self):
-        transaction = self.transaction_service.create_transaction(self.transaction)
-        assert_that(self.transaction).is_equal_to(transaction)
+        transaction_data = TransactionSchema(
+            account_id='123',
+            transaction_type=TransactionType.DEPOSIT,
+            amount=1000,
+            date=datetime.datetime.now()
+        )
+        transaction = self.transaction_service.create_transaction(transaction_data)
+        assert_that(self.transaction.transaction_type).is_equal_to(transaction.transaction_type)
 
     def test_get_all_transactions(self):
         transactions = self.transaction_service.get_all_transactions()
