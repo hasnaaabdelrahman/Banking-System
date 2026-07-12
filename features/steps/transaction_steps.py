@@ -6,6 +6,7 @@ from behave import given, when, then
 from datetime import datetime
 from common.transaction_type import TransactionType
 from common.account_type import AccountType
+from schemas.user_schema import UserLoginSchema
 
 
 @given("the user wants to create a transaction")
@@ -38,8 +39,12 @@ def step_impl(context):
         img_url="https://example.com",
         bank_account=[]
     )
+    user_data = UserLoginSchema(
+        username="user_13",
+        password="password@12",
+    )
     context.user = context.user_service.register(context.user)
-    context.logged = context.user_service.login("user_13", "password@12")
+    context.logged = context.user_service.login(user_data)
     context.bank = context.bank_account_service.create_bank_account(context.bank_account)
     context.transaction = context.transaction_service.create_transaction(context.transaction)
 
@@ -52,7 +57,7 @@ def step_impl(context):
 def step_impl(context):
     context.user = User(
         id='1',
-        username="user_13",
+        username="user_123",
         password="password@12",
         email="user1@example.com",
         first_name="fuser",
@@ -65,7 +70,11 @@ def step_impl(context):
 
 @given("the user is logged in")
 def step_impl(context):
-    context.logged = context.user_service.login(context.user.username, "password@12")
+    user_data = UserLoginSchema(
+        username="user_123",
+        password="password@12",
+    )
+    context.logged = context.user_service.login(user_data)
 
 @given("the user has a bank account")
 def step_impl(context):
@@ -106,11 +115,11 @@ def step_impl(context):
         amount=10000,
         date=datetime.now()
     )
-    context.transaction_service.create_transaction(context.transaction)
+    context.transaction = context.transaction_service.create_transaction(context.transaction)
 
 @when("transaction exists with this id")
 def step_impl(context):
-    context.transaction = context.transaction_service.get_transaction_by_id(context.transaction.id)
+   context.transaction_service.get_transaction_by_id(context.transaction.id)
 
 @then("the transaction should be found successfully")
 def step_impl(context):
