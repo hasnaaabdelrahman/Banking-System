@@ -17,6 +17,7 @@ class BankAccount(Base):
         String,
         unique = True,
         nullable = False,
+        default= lambda: str(uuid.uuid4())
     )
     account_type: Mapped[AccountType] = mapped_column(
         Enum(AccountType),
