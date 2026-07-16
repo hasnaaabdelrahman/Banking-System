@@ -15,11 +15,29 @@ def register():
     data = request.json
     user_data = UserRegisterSchema(**data)
     user = user_service.register(user_data)
-    return jsonify(user), 201
+    return jsonify({
+    "message": "Register successful",
+        "user":{
+            "username":user.username,
+            "email":user.email,
+            "first_name":user.first_name,
+            "last_name":user.last_name,
+            "age":user.age,
+        }
+    }), 201
 
 @user_bp.route("/login" , methods=["POST"])
 def login():
     data = request.json
     user_data = UserLoginSchema(**data)
     user = user_service.login(user_data)
-    return jsonify(user), 200
+    return jsonify({
+    "message": "Login successful",
+        "user": {
+            "username":user.username,
+            "email":user.email,
+            "first_name":user.first_name,
+            "last_name":user.last_name,
+            "age":user.age,
+        }
+    }), 200
