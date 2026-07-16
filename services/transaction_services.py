@@ -22,7 +22,7 @@ class TransactionService:
         return transaction
 
     def get_all_transactions(self)->List[Transaction]:
-        return self.transaction_repository.get_all_transactions()
+        return self.transaction_repository.get_all()
 
     def get_transaction_by_id(self, transaction_id:str)->Optional[Transaction]:
         transaction = self.transaction_repository.get_by_id(transaction_id)
@@ -32,9 +32,9 @@ class TransactionService:
 
     def get_transaction_by_account_id(self, account_id:str)->List[Transaction]:
         transaction = self.transaction_repository.get_by_account_id(account_id)
-        if not transaction:
+        if transaction is None:
             raise TransactionNotFound(f'Transaction not found with account id: {account_id}')
-        return transaction
+        return self.transaction_repository.get_by_account_id(account_id)
 
     def update_transaction(self, transaction:Transaction)->Transaction | None:
         if self.get_transaction_by_id(transaction.id):
